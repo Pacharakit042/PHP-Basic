@@ -49,21 +49,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <?php if (isset($_GET['register']) && $_GET['register'] === 'success'): ?>
-        <div class="alert alert-success">สมัครสมาชิกสำเร็จ กรุณาเข้าสู่ระบบ</div>
-    <?php endif; ?>
+    <div class="container mt-5 justify-content-center col-md-4 card shadow-lg border-0 card-body p-4">
 
-    <?php if (!empty($error)): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+        <?php if (isset($_GET['register']) && $_GET['register'] === 'success'): ?>
+            <div class="alert alert-success">สมัครสมาชิกสำเร็จ กรุณาเข้าสู่ระบบ</div>
+        <?php endif; ?>
+    
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
 
-    <div class="container mt-5">
+        <h2 class="mb-4 text-center">ลงชื่อเข้าใช้</h2>
         <form method="post" class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12">
                 <label for="username_or_email" class="form-label">ชื่อผู้ใช้หรืออีเมล</label>
                 <input type="text" name="username_or_email" id="username_or_email" class="form-control">
             </div>
-            <div class="col-md-6">
+            <div class="col-12">
                 <label for="password" class="form-label">รหัสผ่าน</label>
                 <input type="password" name="password" id="password" class="form-control">
             </div>

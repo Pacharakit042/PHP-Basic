@@ -62,9 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 
-<bod y>
-    <div class="container mt-5">
-        <h2 class="mb-4">สมัครสมาชิก</h2>
+<body>
+    <div class="container mt-5 justify-content-center col-md-4 card shadow-lg border-0 card-body p-4">
+        <h2 class="mb-4 text-center">สมัครสมาชิก</h2>
 
         <?php if (!empty($error)): // ถ้ามีข้อผิดพลาด ให้แสดงข้อความ ?>
             <div class="alert alert-danger">

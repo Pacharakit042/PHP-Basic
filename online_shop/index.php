@@ -15,11 +15,13 @@ session_start();
 </head>
 
 <body>
-    <h1>ยินดีต้อนรับสู่หน้าหลัก</h1>
-    <p>ผู้ใช้: <?= htmlspecialchars($_SESSION['username']) ?> (<?= $_SESSION['role'] ?>) </p>
-
-    <div>
-        <a href="logout.php" class="btn btn-secondary">ออกจากระบบ</a>
+    <div class="container mt-5 justify-content-center col-md-5 card shadow-lg border-0 card-body p-4">
+        <h1>ยินดีต้อนรับสู่หน้าหลัก</h1>
+        <p>ผู้ใช้: <?= htmlspecialchars($_SESSION['username']) ?> (<?= $_SESSION['role'] ?>) </p>
+        
+        <div>
+            <a href="logout.php" class="btn btn-secondary">ออกจากระบบ</a>
+        </div>
     </div>
 
 </body>
