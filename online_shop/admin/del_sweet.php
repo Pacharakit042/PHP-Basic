@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../config.php';
 require 'auth_admin.php'; // ตรวจสอบสทิ ธิ์admin
 // ตรวจสอบกำรสง่ ขอ้ มลู จำกฟอรม์

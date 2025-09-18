@@ -11,27 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $category_id = intval($_POST['category_id']);
 
     if ($name && $price > 0 && $category_id > 0) {
-
-        $imageName = null;
-        if (!empty($_FILES['product_image']['name'])) {
-
-            $file = $_FILES['product_image'];
-            $allowed = ['image/jpeg', 'image/png'];
-
-            if (in_array($file['type'], $allowed)) {
-                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-                $imageName = 'product_' . time() . '.' . $ext;
-                $path = __DIR__ . '/../product_images/' . $imageName;
-                move_uploaded_file($file['tmp_name'], $path);
-            }
-        }
-        $stmt = $conn->prepare("INSERT INTO products (product_name, description, price, stock, category_id, image)
-        VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $description, $price, $stock, $category_id, $imageName]);
-
-        // $stmt = $conn->prepare("INSERT INTO products (product_name, description, price, stock, category_id) VALUES (?, ?, ?, ?, ?)");
-        // $stmt->execute([$name, $description, $price, $stock, $category_id]);
-
+        $stmt = $conn->prepare("INSERT INTO products (product_name, description, price, stock, category_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $description, $price, $stock, $category_id]);
         $_SESSION['success'] = "เพิ่มสินค้าสำเร็จ";
     } else {
         $_SESSION['error'] = "กรุณากรอกข้อมูลสินค้าให้ครบถ้วนและถูกต้อง";
@@ -40,48 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     exit;
 }
 
-// ลบสินค้า
-// if (isset($_GET['delete'])) {
-//     $product_id = $_GET['delete'];
-//     $stmt = $conn->prepare("DELETE FROM products WHERE product_id = ?");
-//     $stmt->execute([$product_id]);
-//     $_SESSION['success'] = "ลบสินค้าเรียบร้อยแล้ว";
-//     header("Location: products.php");
-//     exit;
-// }
-
-// ลบสินค้า (ลบไฟล์รูปด้วย)
 if (isset($_GET['delete'])) {
-    $product_id = (int) $_GET['delete']; // แคสต์เป็น int
-    // 1) ดึงชื่อไฟล์รูป จาก DB ก่อน
-    $stmt = $conn->prepare("SELECT image FROM products WHERE product_id = ?");
+    $product_id = $_GET['delete'];
+    $stmt = $conn->prepare("DELETE FROM products WHERE product_id = ?");
     $stmt->execute([$product_id]);
-    $imageName = $stmt->fetchColumn(); // null ถ้าไม่มีรูป
-    // 2) ลบใน DB ด้วย Transaction
-    try {
-        $conn->beginTransaction();
-        $del = $conn->prepare("DELETE FROM products WHERE product_id = ?");
-        $del->execute([$product_id]);
-        $conn->commit();
-    } catch (Exception $e) {
-        $conn->rollBack();
-        // ใส่ flash message หรือ log ได้ตามต้องการ
-        header("Location: products.php");
-        exit;
-    }
-    // 3) ลบไฟล์รูปหลัง DB ลบสำเร็จ
-    if ($imageName) {
-        $baseDir = realpath(__DIR__ . '/../product_images'); // โฟลเดอร์เก็บรูป
-        $filePath = realpath($baseDir . '/' . $imageName);
-        // กัน path traversal: ต้องอยู่ใต้ $baseDir จริงๆ
-        if ($filePath && strpos($filePath, $baseDir) === 0 && is_file($filePath)) {
-            @unlink($filePath); // ใช ้@ กัน warning ถ้าลบไม่สำเร็จ
-        }
-    }
+    $_SESSION['success'] = "ลบสินค้าเรียบร้อยแล้ว";
     header("Location: products.php");
     exit;
 }
-
 
 $stmt = $conn->query("SELECT p.*, c.category_name FROM products p LEFT JOIN categories c ON p.category_id = c.category_id ORDER BY p.created_at DESC");
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -130,9 +77,8 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY category_name ASC"
                     <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-plus-circle-fill"></i> เพิ่มสินค้าใหม่</h5>
                     </div>
-
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data" class="row g-3">
+                        <form method="post" class="row g-3">
                             <div class="col-md-6">
                                 <label for="product_name" class="form-label">ชื่อสินค้า</label>
                                 <input type="text" id="product_name" name="product_name" class="form-control"
@@ -166,10 +112,6 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY category_name ASC"
                                 <label for="description" class="form-label">รายละเอียดสินค้า</label>
                                 <textarea id="description" name="description" class="form-control" rows="3"
                                     placeholder="คำอธิบายสั้นๆ เกี่ยวกับสินค้า"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">รูปสินค้า (jpg, png)</label>
-                                <input type="file" name="product_image" class="form-control">
                             </div>
                             <div class="col-12 text-end">
                                 <button type="submit" name="add_product" class="btn btn-primary"><i

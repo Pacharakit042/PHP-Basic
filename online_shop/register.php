@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$username, $fullname, $email, $hashedPassword]);
 
         // ถ้าบันทึกสำเร็จ ให้เปลี่ยนเส้นทางไปหน้า login
-        header("Location: login.php?register=success");
+        header("Location: login.php?register=succes");
         exit(); // หยุดการทำงานของสคริปต์หลังจากเปลี่ยนเส้นทาง
     }
 }
@@ -62,11 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 
-<body>
-    <div class="container mt-5 justify-content-center col-md-4 card shadow-lg border-0 card-body p-4">
-        <h2 class="mb-4 text-center">สมัครสมาชิก</h2>
+<bod y>
+    <div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg p-4 w-100" style="max-width: 500px;">
+        <h2 class="mb-4">สมัครสมาชิก</h2>
 
-        <?php if (!empty($error)): // ถ้ามีข้อผิดพลาด ให้แสดงข้อความ ?>
+        <?php if (!empty($error)): // ถ ้ำมีข ้อผิดพลำด ให้แสดงข ้อควำม ?>
             <div class="alert alert-danger">
                 <ul>
                     <?php foreach ($error as $e): ?>
@@ -102,17 +103,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" class="form-control" id="password" placeholder="รหัสผ่าน" name="password">
             </div>
             <div>
-                <label for=" confirm_password" class="form-label">ยืนยันรหัสผ่าน</label>
+                <label for="confirm_password" class="form-label">ยืนยันรหัสผ่าน</label>
                 <input type="password" class="form-control" id="confirm_password" placeholder="ยืนยันรหัสผ่าน"
                     name="confirm_password">
             </div>
-
             <br>
 
-            <button type=" submit" class="btn btn-primary">สมัครสมาชิก</button>
+            <button type="submit" class="btn btn-primary">สมัครสมาชิก</button>
             <a href="login.php" class="btn btn-link">เข้าสู่ระบบ</a>
 
         </form>
+    </div>
     </div>
     </form>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2025 at 07:23 AM
+-- Generation Time: Sep 18, 2025 at 07:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -119,6 +119,7 @@ CREATE TABLE `products` (
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) DEFAULT 0,
+  `image` varchar(255) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -127,13 +128,14 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `stock`, `category_id`, `created_at`) VALUES
-(1, 'หูฟังไร้สาย', 'หูฟัง Bluetooth คุณภาพเสียงดี', 599.00, 50, 1, '2025-08-07 03:26:39'),
-(2, 'สมุดโน้ต', 'สมุดโน้ตขนาด A5', 35.00, 100, 2, '2025-08-07 03:26:39'),
-(3, 'เสื้อยืดคอกลม', 'เสื้อยืดสีขาวคอกลม', 199.00, 80, 3, '2025-08-07 03:26:39'),
-(4, 'หูฟังไร้สาย', 'หูฟัง Bluetooth คุณภาพเสียงดี', 599.00, 50, 1, '2025-08-07 03:26:43'),
-(5, 'สมุดโน้ต', 'สมุดโน้ตขนาด A5', 35.00, 100, 2, '2025-08-07 03:26:43'),
-(6, 'เสื้อยืดคอกลม', 'เสื้อยืดสีขาวคอกลม', 199.00, 80, 3, '2025-08-07 03:26:43');
+INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `stock`, `image`, `category_id`, `created_at`) VALUES
+(1, 'หูฟังไร้สาย', 'หูฟัง Bluetooth คุณภาพเสียงดี', 599.00, 50, '', 1, '2025-08-07 03:26:39'),
+(2, 'สมุดโน้ต', 'สมุดโน้ตขนาด A5', 35.00, 100, '', 2, '2025-08-07 03:26:39'),
+(3, 'เสื้อยืดคอกลม', 'เสื้อยืดสีขาวคอกลม', 199.00, 80, '', 3, '2025-08-07 03:26:39'),
+(4, 'คีย์บอร์ด', 'คีบอร์ดคุณภาพเสียงดี', 890.00, 50, 'product_1758171484.jpg', 1, '2025-08-07 03:26:43'),
+(5, 'สมุดโน้ต', 'สมุดโน้ตขนาด A5', 35.00, 100, '', 2, '2025-08-07 03:26:43'),
+(6, 'เสื้อยืดคอกลม', 'เสื้อยืดสีขาวคอกลม', 199.00, 80, '', 3, '2025-08-07 03:26:43'),
+(8, 'เมาส์', 'ดี', 590.00, 20, 'product_1758171510.png', 1, '2025-09-18 04:19:18');
 
 -- --------------------------------------------------------
 
@@ -183,7 +185,9 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `full_name`, `r
 (2, 'member1', 'member_pass', 'member1@example.com', 'John Doe', 'member', '2025-08-07 03:24:49'),
 (3, 'member2', 'member_pass', 'member2@example.com', 'Jane Smith', 'member', '2025-08-07 03:24:49'),
 (9, 'member3', '$2y$10$PZorPOlu53L.WyeeO5fdtewVAw.mqp1d/F5IFsE5rzPFg5nD1tHWe', 'member3@gmail.com', 'koe fastnine', 'member', '2025-08-14 04:42:54'),
-(10, 'member4', '$2y$10$1OBRoVswZiV9ugF98u/squVP7QNbdixFzWHnHqlmate9hWiA760wK', 'member4@gmail.com', 'gp reroll', 'member', '2025-08-14 05:19:02');
+(10, 'member4', '$2y$10$1OBRoVswZiV9ugF98u/squVP7QNbdixFzWHnHqlmate9hWiA760wK', 'member4@gmail.com', 'gp reroll', 'member', '2025-08-14 05:19:02'),
+(11, 'admin', '$2y$10$ZTNhNpRaXUsVDBYDwbfS6uSd4GVS4uLUp4xAqM8Iouadql1wUC84G', 'admin@mail.com', 'admin test', 'admin', '2025-09-18 01:59:53'),
+(12, 'test', '$2y$10$tkA7piwxRMqzmLrvGOnc9e/5yIg/shuaA/4OFSFBg9wAL2SjpZa6O', 'test@mail.com', 'test', 'member', '2025-09-18 04:40:13');
 
 --
 -- Indexes for dumped tables
@@ -272,7 +276,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `shipping`
@@ -284,7 +288,7 @@ ALTER TABLE `shipping`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
